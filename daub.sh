@@ -24,19 +24,19 @@ crossystem disable_dev_request=1
 }
 fail(){
 	printf "$1\n"
-	printf "exiting...\n"
+	printf "Exiting...\n"
 	exit
 }
 get_internal() {
 	# get_largest_cros_blockdev does not work in BadApple.
 	local ROOTDEV_LIST=$(cgpt find -t rootfs) # thanks stella
 	if [ -z "$ROOTDEV_LIST" ]; then
-		fail "could not parse for rootdev devices. this should not have happened."
+		fail "Could not parse for rootdev devices. this should not have happened."
 	fi
 	local device_type=$(echo "$ROOTDEV_LIST" | grep -oE 'mmc|nvme|sda' | head -n 1)
 	case $device_type in
 	"mmc")
-		intdis=/dev/mmcblk0
+		intdis=/dev/mmcblk0 
   		intdis_prefix="p"
 		break
 		;;
@@ -51,11 +51,11 @@ get_internal() {
 		break
 		;;
 	*)
-		fail "an unknown error occured. this should not have happened."
+		fail "An unknown error occured. This shouldn't have happened."
 		;;
 	esac
 }
-read -p "NOTE if you have not freshly recovered, THIS WILL BRICK UR CHROMEBOOK UNTIL NEXT RECOVERY!  Proceed?(y/n) " -n 1 -r
+read -p "Note, if you've not freshly recovered this will temporarily render your device inoperable!  Proceed?(y/n) " -n 1 -r
 echo   
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     main
